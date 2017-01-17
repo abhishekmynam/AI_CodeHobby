@@ -41,9 +41,27 @@ func main(){
 		}
 	}
 	sortedPos = ReturnOrderedPairAsc(garbagePos)
-	fmt.Println(garbagePos)
-	fmt.Println(sortedPos)
 
+}
+
+func printMoves (rowP int, rowM int, colP int, colM int){
+	var updown, leftright int
+	updown = rowP-rowM
+	leftright = colP-colM
+	if(updown >0 ){
+
+		fmt.Println("DOWN")
+
+	}else if(updown <0){
+		fmt.Println("UP")
+
+	}else if(updown ==0) {
+		if (leftright > 0) {
+			fmt.Println("RIGHT")
+		}else if (leftright < 0) {
+			fmt.Println("LEFT")
+		}
+	}
 }
 
 
@@ -130,25 +148,7 @@ func ReturnOrderedPairAsc (orderSlice [][]int )[][]int{
 	return sortedSlice
 }
 
-func printMoves (rowP int, rowM int, colP int, colM int){
-	var updown, leftright int
-	updown = rowP-rowM
-	leftright = colP-colM
-	if(updown >0 ){
 
-		fmt.Println("DOWN")
-
-	}else if(updown <0){
-		fmt.Println("UP")
-
-	}else if(updown ==0) {
-		if (leftright > 0) {
-			fmt.Println("RIGHT")
-		}else if (leftright < 0) {
-			fmt.Println("LEFT")
-		}
-	}
-}
 func AllSameStrings(a [][]int) bool {
 	for i := 1; i < len(a); i++ {
 		if !(reflect.DeepEqual(a[i], a[0])) {
