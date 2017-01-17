@@ -4,7 +4,48 @@ import (
 	"strings"
 	"fmt"
 	"reflect"
+	"bufio"
+	"os"
 )
+
+func main(){
+	scanner := bufio.NewScanner(os.Stdin)
+	var matOrder int
+	var toBeSearched string
+	var indexM, rowM  int //,indexP, rowP,colP
+	//var updown,leftright int
+	var thisRow string
+	fmt.Scan( &matOrder)
+	fmt.Scan(&toBeSearched)
+	fmt.Scan(&rowM,&indexM)
+	room:= make([]string, matOrder)
+	roomPos := make([][]int,0,0)
+	sortedPos := make([][]int,0,0)
+	garbagePos:=make([][]int,0,0)
+	for i:=0 ;i<matOrder;i++ {
+		scanner.Scan()
+		thisRow = scanner.Text()
+		room[i] = thisRow
+	}
+
+	for _,j := range room{
+		roomPos = append(roomPos,GetPosOfAllCharsInString(j,toBeSearched))
+	}
+
+	for i,j:=range roomPos{
+		for _,k:=range j{
+			curPos :=make([]int,0)
+			curPos = append(curPos,i)
+			curPos = append(curPos,k)
+			garbagePos = append(garbagePos,curPos)
+		}
+	}
+	sortedPos = ReturnOrderedPairAsc(garbagePos)
+	fmt.Println(garbagePos)
+	fmt.Println(sortedPos)
+
+}
+
 
 func GetPosOfAllCharsInString  (thisString string, tobesearched string) []int{
 	var lastPos int
@@ -56,18 +97,26 @@ func ReturnOrderedPairAsc (orderSlice [][]int )[][]int{
 					minSoFar = thisSum
 					minrowSoFar = i
 					minOrderSlice = j
+					fmt.Println("I")
+					fmt.Println(j)
 				}else if(thisSum < minSoFar){
 					minSoFar = thisSum
 					minrowSoFar = i
 					minOrderSlice = j
+					fmt.Println("II")
+					fmt.Println(j)
 				}else if (thisSum == minSoFar && j[0] < minrowSoFar){
 					minSoFar = thisSum
 					minrowSoFar = i
 					minOrderSlice = j
+					fmt.Println("III")
+					fmt.Println(j)
 				} else if (thisSum == minSoFar && j[0] == minrowSoFar){
 					minSoFar = thisSum
 					minrowSoFar = i
 					minOrderSlice = j
+					fmt.Println("IIII")
+					fmt.Println(j)
 				}
 				iter++
 				thisIter++
@@ -78,7 +127,7 @@ func ReturnOrderedPairAsc (orderSlice [][]int )[][]int{
 		orderSlice[minrowSoFar] = nullify
 	}
 
-	return orderSlice
+	return sortedSlice
 }
 
 func printMoves (rowP int, rowM int, colP int, colM int){
@@ -99,4 +148,12 @@ func printMoves (rowP int, rowM int, colP int, colM int){
 			fmt.Println("LEFT")
 		}
 	}
+}
+func AllSameStrings(a [][]int) bool {
+	for i := 1; i < len(a); i++ {
+		if !(reflect.DeepEqual(a[i], a[0])) {
+			return false
+		}
+	}
+	return true
 }
